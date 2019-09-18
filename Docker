@@ -1,0 +1,36 @@
+yum install -y yum-utils device-mapper-persistent-data lvm2
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install docker-ce
+docker --version
+ systemctl start docker
+ [root@linuxvm run]# docker pull ubuntu
+Using default tag: latest
+Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+[root@linuxvm run]# systemctl start docker
+[root@linuxvm run]# ps -ef|grep docker
+root       7710      1  3 15:12 ?        00:00:00 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+root       7871   7323  0 15:12 pts/0    00:00:00 grep --color=auto docker
+[root@linuxvm run]#
+[root@linuxvm run]# systemctl enable docker
+Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.
+[root@linuxvm run]#
+
+
+192.168.150.128 
+
+docker commit -a Venkatesh 3d9a6553ddfc ubuntuwithjdk:v1
+docker run -it --name ubuntu-2 -p 8080:8080 --mount source=volume1,target=/var/tmp/ -d ubuntuwithjdk:v1
+
+FROM centos:7
+MAINTAINER linuxtechlab
+LABEL Remarks=”This is a dockerfile example for Centos system”
+RUN yum -y update && \
+yum -y install httpd && \
+yum clean all
+COPY data/httpd.conf /etc/httpd/conf/httpd.conf
+ADD data/html.tar.gz /var/www/html/
+EXPOSE 80
+ENV HOME /root
+WORKDIR /root
+ENTRYPOINT [“ping”]
+CMD [“google.com”]
